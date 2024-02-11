@@ -6,8 +6,8 @@ const AllAdminDashbordContext=createContext({})
 export const AdminDashbordContext=({children})=> {
   let navigator = useNavigate();
 
-    const[studentbutton,setStudentbutton]=useState('')
-    const[mentorbutton,setMentorbutton]=useState('')
+    // const[studentbutton,setStudentbutton]=useState('')
+    // const[mentorbutton,setMentorbutton]=useState('')
 
     const [studentsdetails,setStudentsdetails]=useState([]);
     const [mentorsdetails,setMentorsdetails]=useState([]);
@@ -17,13 +17,13 @@ export const AdminDashbordContext=({children})=> {
           id: 1,
           name: "saveen",
           lastname: "j",
-          email: "saveenj1996@gmail.com",
+          email: "saveen6@gmail.com",
         },
         {
           id: 2,
           name: "Sibi",
           lastname: "s",
-          email: "sibi1996@gmail.com",
+          email: "sibi@gmail.com",
         },
            ];
       let mentorsdetails = JSON.parse(localStorage.getItem("mentorsdetails")) || [
@@ -45,7 +45,7 @@ export const AdminDashbordContext=({children})=> {
          setMentorsdetails(mentorsdetails);
     }, []);
     // console.log("studentsdetails",studentsdetails);
-    let [trvaluestudent, setTrvalueStudent] = useState("");
+    let [trvaluestudent, setTrvalueStudent] = useState("null ");
     let [newStudentName, setNewStudentName] = useState("");
     let [editStudentName, setEditStudentName] = useState("");
     let [newStudentLName, setNewStudentLName] = useState("");
@@ -56,7 +56,7 @@ export const AdminDashbordContext=({children})=> {
    
 
     let [EditMentorid, setEditMentorid] = useState("");
-    let [trvalueMentor, setTrvalueMentor] = useState("");
+    let [trvalueMentor, setTrvalueMentor] = useState("null ");
      let [newMentorName, setNewMentorName] = useState("");
     let [editMentorName, setEditMentorName] = useState("");
     let [newMentorLName, setNewMentorLName] = useState("");
@@ -144,6 +144,7 @@ let tableClickStudent=(event,clickedValue)=>{
   // const table = document.getElementById('studenttable');
   const trValue = event.currentTarget.getAttribute('value');
   setTrvalueStudent(trValue)
+  setTrvalueMentor(null)//reset mentor value
 
   setEditStudentName(clickedValue.name)
   setEditStudentLName(clickedValue.lastname)
@@ -154,7 +155,7 @@ let handleUpdate=()=>{
 //   console.log("tableClickStudent",trValue);
  let id =EditStudentid
 let student = studentsdetails.find((e) => e.id === id);
- console.log("student",student,id);
+//  console.log("student",student,id);
 let updatedStudent={
   id:student.id,
   name: editStudentName,
@@ -182,7 +183,8 @@ let handleUpdatecancle=()=>{
 //edit mentor
 let tableClickMentor=(event,clickedValue)=>{
  const trValue = event.currentTarget.getAttribute('value');
- setTrvalueMentor(trValue)
+ setTrvalueMentor(trValue);
+ setTrvalueStudent(null); // Reset student value
 
  setEditMentorName(clickedValue.name)
  setEditMentorLName(clickedValue.lastname)
@@ -194,7 +196,7 @@ let handleUpdatementor=()=>{
   //   console.log("tableClickStudent",trValue);
    let id =EditMentorid
   let mentor = mentorsdetails.find((e) => e.id === id);
-   console.log("mentor",mentor,id);
+  //  console.log("mentor",mentor,id);
   let updatedMentor={
     id:mentor.id,
     name: editMentorName,
@@ -222,9 +224,18 @@ let handleUpdatementor=()=>{
   let handleDeletestudent = () => {
     let id =EditStudentid
     if (window.confirm("Please confirm to delete") === true) {
-      let filteredStudents = mentorsdetails.filter((e) => e.id !== id);
+      let filteredStudents = studentsdetails.filter((e) => e.id !== id);
       setStudentsdetails(filteredStudents);
-      localStorage.setItem("students", JSON.stringify(filteredStudents));
+      localStorage.setItem("studentsdetails", JSON.stringify(filteredStudents));
+      // navigator("/");
+    }
+  };
+  let handleDeletementor = () => {
+    let id =EditMentorid
+    if (window.confirm("Please confirm to delete") === true) {
+      let filteredMentorts = mentorsdetails.filter((e) => e.id !== id);
+      setMentorsdetails(filteredMentorts);
+      localStorage.setItem("mentorsdetails", JSON.stringify(filteredMentorts));
       // navigator("/");
     }
   };
@@ -235,8 +246,8 @@ let handleUpdatementor=()=>{
    <>
 <AllAdminDashbordContext.Provider
 value={{
-    studentbutton, setStudentbutton,
-    mentorbutton, setMentorbutton,
+    // studentbutton, setStudentbutton,
+    // mentorbutton, setMentorbutton,
     studentsdetails,setStudentsdetails,
     mentorsdetails,setMentorsdetails,
 
@@ -260,11 +271,7 @@ value={{
        setTrvalueStudent,setTrvalueMentor,
        handleUpdatecancle,handleUpdate,
        handleUpdatecanclementor,handleUpdatementor,
-       handleDeletestudent
-
-
-   
-    
+       handleDeletestudent,handleDeletementor
     
 }}>{children}</AllAdminDashbordContext.Provider>
 

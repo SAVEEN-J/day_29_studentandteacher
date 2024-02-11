@@ -9,7 +9,7 @@ import EditMentor from './EditMentor';
 import EditStudents from './EditStudents';
 
 function Admindashbord() {
-  const{trvaluestudent,trvalueMentor,setTrvalueStudent,setTrvalueMentor,handleDeletestudent} =useContext(AllAdminDashbordContext);
+  const{trvaluestudent,trvalueMentor,setTrvalueStudent,setTrvalueMentor,handleDeletestudent,handleDeletementor} =useContext(AllAdminDashbordContext);
 console.log("trvaluestudent",trvaluestudent);
 console.log("trvalueMentor",trvalueMentor);
 
@@ -26,21 +26,29 @@ console.log("trvalueMentor",trvalueMentor);
     <Link to="/mentor" >
       <Button type='button' >Mentor</Button>
       </Link>&nbsp;&nbsp;
-      {trvaluestudent === 'student' ? (
-            <Link to="/edit_student">
-              <Button variant="info">Edit Student</Button>
-            </Link>
-          ): null}&nbsp;&nbsp;
-     
-          {trvalueMentor === 'mentor' ? (
-            <Link to="/edit_mentor">
-              <Button variant="info">Edit Mentor</Button>
-            </Link>
+  
+{trvaluestudent === 'student' && !trvalueMentor && (
+  <Link to="/edit_student">
+    <Button variant="info">Edit Student</Button>
+  </Link>
+)}&nbsp;
+
+{trvalueMentor === 'mentor' && !trvaluestudent && (
+  <Link to="/edit_mentor">
+    <Button variant="info">Edit Mentor</Button>
+  </Link>
+)}&nbsp;&nbsp;
+     {trvaluestudent == 'student' ? (
+             <Button variant="danger" onClick={handleDeletestudent}>Delete Student</Button> 
+          ):trvalueMentor == 'mentor' ? (
+            <Button variant="danger" onClick={handleDeletementor}>Delete Mentor</Button>
           ) : null}&nbsp;&nbsp;
 
-      <Link to="/delete" >
-      <Button variant="danger" onClick={handleDeletestudent}>Delete</Button>
-      </Link>&nbsp;&nbsp;
+
+     
+    
+
+     
 </div><br /><br /><br />
     <Routes>
            <Route path='/' element={ <DashbordTable /> } />
